@@ -1,5 +1,5 @@
 from pytube import YouTube
-from tkinter import Checkbutton, Tk, Button, Label, Entry
+from tkinter import Checkbutton, Tk, Button, Label, Entry, IntVar
 
 SAVE_PATH = r"D:/"
 # link = "https://www.youtube.com/watch?v=xarC5jAiO7w"
@@ -15,26 +15,23 @@ class YouTube_downloader(Tk):
         self.url_entry.grid(row=0, column=0)
         self.download_button = Button(self, text="DOWNLOAD", command=self.download_video)
         self.download_button.grid(row=0, column=2)
-        self.audio_only_button = Checkbutton(self, text="Audio Only")
+        self.audio_check = IntVar()
+        self.audio_only_button = Checkbutton(self, text="Audio Only", variable=self.audio_check)
         self.audio_only_button.grid(row=0, column=1)
         self.status_label = Label(self, text="Status: ")
         self.status_label.grid(row=1, column=0, columnspan=3)
 
     def download_video(self):
         print("downloading")
-        print(link)
         try:
             yt = YouTube(link)
             print(yt)
-            # print(yt.streams.first().download())
-            # print(
-            #     yt.streams.filter(progressive=True, file_extension="mp4")
-            #     .order_by("resolution")
-            #     .desc()
-            #     .first()
-            # )
-            print(yt.streams.order_by("resolution").desc())
-            # print(yt.streams.order_by("resolution").desc().get_highest_resolution())
+            if self.audio_check.get():
+                print(yt.streams.filter(only_audio=True).order_by("abr").desc())
+                print("It's true")
+            else:
+                self.status_label.config(text=f"Download Complete")
+                yt.streams.filter(progressive=True).order_by("resolution").desc().first().download()
         except:
             self.status_label.config(text="Connection Error")
             print("Connection Error")
