@@ -13,6 +13,7 @@ class YouTube_downloader(Tk):
         super().__init__()
         self.title("YouTube Downloader")
         self.geometry("+900+300")
+        self.iconbitmap("icon.ico")
         self.url_entry = Entry(self)
         self.url_entry.grid(row=0, column=0)
         self.download_button = Button(
@@ -29,17 +30,22 @@ class YouTube_downloader(Tk):
 
     def download_video(self):
         print("downloading")
+        url = self.url_entry.get()
+        print(url)
+
         try:
-            yt = YouTube(link)
+            yt = YouTube(url)
             if self.audio_check.get():
                 yt.streams.filter(file_extension="mp4").filter(
                     only_audio=True
                 ).order_by("abr").desc().first().download()
             else:
-                self.status_label.config(text=f"Download Complete")
                 yt.streams.filter(progressive=True).order_by(
                     "resolution"
                 ).desc().first().download()
+
+            self.status_label.config(text=f"Download Complete")
+
         except:
             self.status_label.config(text="Connection Error")
             print("Connection Error")
