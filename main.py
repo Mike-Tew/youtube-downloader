@@ -2,12 +2,6 @@ from pytube import YouTube
 from tkinter import Checkbutton, Tk, Button, Label, Entry, IntVar
 
 
-SAVE_PATH = r"D:/"
-# link = "https://www.youtube.com/watch?v=xarC5jAiO7w"
-# link = "https://www.youtube.com/watch?v=kR2Fo3B5r2c"
-link = "https://www.youtube.com/watch?v=VlHBalpdcWM"
-
-
 class YouTube_downloader(Tk):
     def __init__(self):
         super().__init__()
@@ -29,12 +23,11 @@ class YouTube_downloader(Tk):
         self.status_label.grid(row=1, column=0, columnspan=3)
 
     def download_video(self):
-        print("downloading")
         url = self.url_entry.get()
-        print(url)
 
         try:
             yt = YouTube(url)
+
             if self.audio_check.get():
                 yt.streams.filter(file_extension="mp4").filter(
                     only_audio=True
@@ -46,9 +39,9 @@ class YouTube_downloader(Tk):
 
             self.status_label.config(text=f"Download Complete")
 
-        except:
-            self.status_label.config(text="Connection Error")
-            print("Connection Error")
+        except Exception as e:
+            self.status_label.config(text=f"{e}")
+            print(e)
 
 
 if __name__ == "__main__":
