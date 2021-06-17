@@ -1,4 +1,4 @@
-from pytube import YouTube
+from pytube import YouTube, exceptions
 from tkinter import Checkbutton, Tk, Button, Label, Entry, IntVar
 
 
@@ -37,6 +37,9 @@ class YouTube_downloader(Tk):
                 ).desc().first().download()
 
             self.status_label.config(text=f"Download Complete")
+
+        except exceptions.RegexMatchError:
+            self.status_label.config(text="URL Not Found")
 
         except Exception as e:
             self.status_label.config(text=f"{e}")
