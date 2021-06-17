@@ -8,23 +8,22 @@ class YouTube_downloader(Tk):
         self.title("YouTube Downloader")
         self.geometry("+900+300")
         self.iconbitmap("icon.ico")
-        self.url_entry = Entry(self)
-        self.url_entry.grid(row=0, column=0)
+        self.url_entry = Entry(self, width=50)
+        self.url_entry.grid(row=0, column=0, padx=10, pady=10)
         self.download_button = Button(
             self, text="DOWNLOAD", command=self.download_video
         )
-        self.download_button.grid(row=0, column=2)
+        self.download_button.grid(row=0, column=2, padx=10)
         self.audio_check = IntVar()
         self.audio_only_button = Checkbutton(
             self, text="Audio Only", variable=self.audio_check
         )
         self.audio_only_button.grid(row=0, column=1)
-        self.status_label = Label(self, text="Status: ")
-        self.status_label.grid(row=1, column=0, columnspan=3)
+        self.status_label = Label(self, font="Helvetica 12 bold")
+        self.status_label.grid(row=1, column=0, columnspan=3, pady=[0, 10])
 
     def download_video(self):
         url = self.url_entry.get()
-
         try:
             yt = YouTube(url)
 
