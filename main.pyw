@@ -43,7 +43,6 @@ class YouTube_downloader(Tk):
 
         except Exception as e:
             self.status_label.config(text=f"{e}")
-            print(e)
 
 
 if __name__ == "__main__":
